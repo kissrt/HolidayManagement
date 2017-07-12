@@ -1,0 +1,105 @@
+﻿@model HolidayManagement.Models.DashboardViewModels
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<h2>Index</h2>
+@*<script type="text/javascript">
+  $("#tabs").tabs();
+</script>
+<div id="tabs">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="">Home</a></li>
+        <li><a data-toggle="tab" href="#tabs-1">Users</a></li>
+        <li><a data-toggle="tab" href="#tabs-2">Calendar</a></li>
+        <li><a data-toggle="tab" href="#tabs-3">GroupManagement</a></li>
+        <li><a data-toggle="tab" href="#tabs-4">Settings</a></li>
+    </ul>
+    <div id="tabs-1">
+        @Html.Action("Users", "Dashboard")
+    </div>
+
+    <div id="tabs-2">
+        @Html.Action("Calendar", "Dashboard")
+    </div>
+    <div id="tabs-3">
+        @Html.Action("GroupManagement", "Dashboard")
+    </div>
+    <div id="tabs-4">
+        @Html.Action("Settings", "Dashboard")
+    </div>
+</div>*@
+
+@*<script>
+        $('.tbs').on('click', function () {
+            var info = $(this).data('info');
+            switch (info) {
+                case 'user': $('#tab_1_1 ').load('@Html.Partial("_Users")'); //Controller method which returns partial view
+                    break;
+                case 'calendar': $('#tab_1_2 ').load('@Html.Partial("_Calendar")');//Controller method which returns partial view
+                    break;
+                case 'groupManagement': $('#tab_1_3 ').load('@Html.Partial("_GroupManagement")');//Controller method which returns partial view
+                    break
+                case 'settings': $('#tab_1_4 ').load('@Html.Partial("_Settings")');//Controller method which returns partial view
+                    break;
+                default: break;
+            }
+        });
+    </script>
+
+    <ul class="nav nav-tabs">
+        <li class="active" id="Users">
+            <a href="#tab_1_1" class="tbs" data-info="user" data-toggle="tab" aria-expanded="true">
+                Users
+            </a>
+        </li>
+        <li class="" id="Calendar">
+            <a href="#tab_1_2" data-toggle="tab" class="tbs" data-info="calendar" aria-expanded="false">
+               Calendar
+            </a>
+        </li>
+        <li class="" id="GroupManagement">
+            <a href="#tab_1_3" data-toggle="tab" class="tbs" data-info="groupManagement" aria-expanded="false">
+                GroupManagement
+            </a>
+        </li>
+        <li class="" id="Settings">
+            <a href="#tab_1_3" data-toggle="tab" class="tbs" data-info="settings" aria-expanded="false">
+                Settings
+            </a>
+        </li>
+    </ul>*@
+
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li><a data-toggle="tab" href="#menu1">Users</a></li>
+    <li><a data-toggle="tab" href="#menu2">Calendar</a></li>
+    <li><a data-toggle="tab" href="#menu3">GroupManagement</a></li>
+    <li><a data-toggle="tab" href="#menu4">Settings</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+       <h2>Welcome :)</h2>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+        @Html.Partial("_Users")
+    </div>
+    <div id="menu2" class="tab-pane fade">
+        @Html.Partial("_Calendar")
+    </div>
+    <div id="menu3" class="tab-pane fade">
+        @Html.Partial("_GroupManagement")
+    </div>
+    <div id="menu4" class="tab-pane fade">
+       @Html.Partial("_Settings")
+    </div>
+</div>
+
+<script type="text/javascript">
+    InitializeDashboardModel(@Html.Raw(Json.Encode(Model)));
+</script>

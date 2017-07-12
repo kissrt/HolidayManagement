@@ -74,6 +74,16 @@ namespace HolidayManagement.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+        
+        [Required]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_]*$", ErrorMessage = "Use Characters only in FirstName field")]
+        [Display(Name = "FirstName")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "LastName")]
+        [RegularExpression(@"^[a-zA-Z]+[ a-zA-Z-_]*$", ErrorMessage = "Use Characters only in LastName field")]
+        public string LastName { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
