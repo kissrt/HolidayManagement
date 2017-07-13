@@ -1,4 +1,5 @@
-﻿using HolidayManagement.Repository.Models;
+﻿using HolidayManagement.Repository;
+using HolidayManagement.Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace HolidayManagement.Models
 
         
         public List<UserDetails> UserList { get; set; }
+        public List<Team> TeamList { get; set; }
 
     }
 }

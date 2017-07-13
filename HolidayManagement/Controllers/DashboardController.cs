@@ -14,12 +14,17 @@ namespace HolidayManagement.Controllers
     {
         // GET: Dashboard
         public UserDetailsRepository database = new UserDetailsRepository();
+        public TeamRepository teamrep = new TeamRepository();
         public ActionResult Index()
         {
             var users = database.GetUsers();
+            var teams = teamrep.GetTeams();
             DashboardViewModels dashboardVM = new DashboardViewModels();
             dashboardVM.UserList = users;
+            dashboardVM.TeamList = teams;
             return View(dashboardVM);
+
+
         }
     }
 }

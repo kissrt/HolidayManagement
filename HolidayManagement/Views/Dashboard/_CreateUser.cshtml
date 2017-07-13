@@ -1,0 +1,53 @@
+﻿<form role="form" method="POST" action="" data-bind="with: manageUser">
+    <input type="hidden" name="_token" value="">
+
+    <div class="form-group">
+        <label class="control-label">First Name</label>
+        <div>
+            <input type="text" class="form-control input-lg" name="firstName" data-bind="value : firstName">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Last Name</label>
+        <div>
+            <input type="text" class="form-control input-lg" name="lastName" data-bind="value : lastName">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Email</label>
+        <div>
+            <input type="text" class="form-control input-lg" name="email" data-bind="value : email">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Hire Date</label>
+        <div>
+            <input type="text" class="form-control input-lg" name="hireDate" data-bind="value : hireDate">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Maximum count of available days</label>
+        <div>
+            <input type="number" class="form-control input-lg" name="maxDay" data-bind="value : maxDays">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Team</label>
+        <select data-bind="options : $root.teams,
+                                   optionsText : 'name',
+                                   optionsValue : 'id',
+                                   value : teams.id,
+                                   optionsCaption : 'Choose...'
+                                   "></select>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-bind="click : $root.createUser">Create</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</form>

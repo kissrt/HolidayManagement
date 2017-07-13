@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using HolidayManagement.Models;
 using HolidayManagement.Repository;
 using HolidayManagement.Repository.Models;
+using System.Web.Services.Description;
+using System.Collections.Generic;
 
 namespace HolidayManagement.Controllers
 {
@@ -186,9 +188,28 @@ namespace HolidayManagement.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(UserDetails model)
+        {
+            List<string> m = new List<string>();
+            var user = new ApplicationUser { UserName = model.AspnetUsers.Email, Email = model.AspnetUsers.Email };
+            var result = await UserManager.CreateAsync(user, "Password1!");
+
+            if (result.Succeeded)
+            {
+                HolidayManagementContext database = new HolidayManagementContext();
+                model.AspnetUsers = null;
+                model.UserID = user.Id;
+                database.UserDetails.Add(model);
+                database.SaveChanges();
+                
+            }
+            return Json(new { successed = true, Message = m, newUser= model}, JsonRequestBehavior.DenyGet);
+        }
+
+    //
+    // GET: /Account/ConfirmEmail
+    [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -436,6 +457,7 @@ namespace HolidayManagement.Controllers
 
             base.Dispose(disposing);
         }
+
 
         
         #region Helpers

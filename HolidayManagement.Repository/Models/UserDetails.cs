@@ -14,7 +14,7 @@ namespace HolidayManagement.Repository.Models
 
         public string LastName { get; set; }
 
-        public DateTime? HireDate { get; set; }
+        public string HireDate { get; set; }
 
         public int? MaxDays { get; set; }
 
