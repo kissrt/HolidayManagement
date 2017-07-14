@@ -11,6 +11,7 @@ namespace HolidayManagement.Repository
             return DbContext.UserDetails.FirstOrDefault(x => x.ID == userDetailsId);
         }
 
+      
         //public List<UserDetails> GetUsers()
         //{
         //    return DbContext.UserDetails.ToList();

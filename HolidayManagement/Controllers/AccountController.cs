@@ -175,7 +175,7 @@ namespace HolidayManagement.Controllers
                     newUser.FirstName = model.FirstName;
                     newUser.LastName = model.LastName;
                     newUser.UserID = user.Id;
-
+                    
                     database.UserDetails.Add(newUser);
                     database.SaveChanges();
 
@@ -191,7 +191,8 @@ namespace HolidayManagement.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateUser(UserDetails model)
         {
-            List<string> m = new List<string>();
+            string  message = "";
+            bool succes = false;
             var user = new ApplicationUser { UserName = model.AspnetUsers.Email, Email = model.AspnetUsers.Email };
             var result = await UserManager.CreateAsync(user, "Password1!");
 
@@ -202,14 +203,54 @@ namespace HolidayManagement.Controllers
                 model.UserID = user.Id;
                 database.UserDetails.Add(model);
                 database.SaveChanges();
-                
+                succes = true;
             }
-            return Json(new { successed = true, Message = m, newUser= model}, JsonRequestBehavior.DenyGet);
+            else
+            {
+                message = result.Errors.ToArray()[0];
+            }
+            return Json(new { successed = succes, Message = message, newUser= model}, JsonRequestBehavior.DenyGet);
         }
 
-    //
-    // GET: /Account/ConfirmEmail
-    [AllowAnonymous]
+
+        [HttpPost]
+        public  ActionResult EditUser(UserDetails model)
+        {
+            // List<string> m = new List<string>();
+            string message = "Succes";
+            bool succes = false;
+           HolidayManagementContext database = new HolidayManagementContext();
+            try
+            {
+                var user = database.UserDetails.FirstOrDefault(x => x.UserID == model.UserID);
+                
+                if (user != null)
+                {
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.HireDate = model.HireDate;
+                    user.AspnetUsers.Email = model.AspnetUsers.Email;
+                    user.AspnetUsers.UserName = model.AspnetUsers.Email;
+                    user.MaxDays = model.MaxDays;
+                    //user = model;
+                    database.SaveChanges();
+                    succes = true;
+                }
+                else
+                {
+                    message = "User not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.ToString();
+            }
+            return Json(new { successed = succes, Message = message, newUser = model }, JsonRequestBehavior.DenyGet);
+
+        }
+        //
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)

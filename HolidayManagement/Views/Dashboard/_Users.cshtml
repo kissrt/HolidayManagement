@@ -1,30 +1,36 @@
 ﻿@model HolidayManagement.Models.DashboardViewModels
 
-<table class="table">
-    <thead>
+<table  class="table table-hover">
+    <thead class="thead-inverse">
         <tr>
             <th>FirstName</th>
             <th>LastName</th>
             <th>Email</th>
             <th>HireDate</th>
             <th>MaxDays</th>
+            @*<th>Team</th>*@
         </tr>
     </thead>
     <tbody data-bind="foreach: users">
-        <tr class="success">
+        <tr>
             <td data-bind="text: firstName"></td>
             <td data-bind="text: lastName"></td>
             <td data-bind="text: email"></td>
             <td data-bind="text: hireDate"></td>
             <td data-bind="text: maxDays"></td>
+            @*<td data-bind="text: $root.teams().name"></td>*@
+            <td>
+                <button type="button" data-toggle="modal" data-bind="click: $parent.updateUser" class="btn btn-info btn-lg" data-target="#myModal" >Edit</button>
+            </td>
         </tr>
         
     </tbody>
 </table>
 
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create new User</button>
+<button type="button" id ="createU" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-bind="click: deleteUserAdress">Create new User</button>
 
  <!-- Modal -->
+
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
@@ -32,10 +38,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title" style="text-align:center">Create new User</h3>
+                <h3 class="modal-title" style="text-align:center" >Create new User</h3>
+                <h4 id="err" style="color : red"> </h4>
             </div>
             <div class="modal-body">
                 @Html.Partial("_CreateUser")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bind="click : $root.createUser, visible: manageUser.id() == null">Create</button>
+                <button type="button" class="btn btn-default" data-bind="click : $root.editUser, visible : manageUser.id() != null">Edit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
 
     </div>

@@ -1,6 +1,6 @@
 ﻿function TeamModel(data) {
 
-    this.id = ko.observable(0);
+    this.id = ko.observable(null);
     this.name = ko.observable(null);
    
     if (data != null) {
