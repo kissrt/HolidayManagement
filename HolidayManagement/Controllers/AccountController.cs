@@ -157,10 +157,11 @@ namespace HolidayManagement.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                
+               
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await UserManager.AddToRoleAsync(user.Id, "Employee");
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -175,7 +176,7 @@ namespace HolidayManagement.Controllers
                     newUser.FirstName = model.FirstName;
                     newUser.LastName = model.LastName;
                     newUser.UserID = user.Id;
-                    
+
                     database.UserDetails.Add(newUser);
                     database.SaveChanges();
 
@@ -189,15 +190,19 @@ namespace HolidayManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateUser(UserDetails model)
+        public async Task<ActionResult> CreateUser(UserDetails model, string rolesID)
         {
             string  message = "";
             bool succes = false;
             var user = new ApplicationUser { UserName = model.AspnetUsers.Email, Email = model.AspnetUsers.Email };
             var result = await UserManager.CreateAsync(user, "Password1!");
+            
+
 
             if (result.Succeeded)
             {
+                await UserManager.AddToRoleAsync(user.Id, rolesID);
+
                 HolidayManagementContext database = new HolidayManagementContext();
                 model.AspnetUsers = null;
                 model.UserID = user.Id;
@@ -212,9 +217,10 @@ namespace HolidayManagement.Controllers
             return Json(new { successed = succes, Message = message, newUser= model}, JsonRequestBehavior.DenyGet);
         }
 
+       
 
         [HttpPost]
-        public  ActionResult EditUser(UserDetails model)
+        public  ActionResult EditUser(UserDetails model, string rolesName)
         {
             // List<string> m = new List<string>();
             string message = "Succes";
@@ -222,8 +228,7 @@ namespace HolidayManagement.Controllers
            HolidayManagementContext database = new HolidayManagementContext();
             try
             {
-                var user = database.UserDetails.FirstOrDefault(x => x.UserID == model.UserID);
-                
+                var user = database.UserDetails.FirstOrDefault(x => x.AspnetUsers.Email == model.AspnetUsers.Email);
                 if (user != null)
                 {
                     user.FirstName = model.FirstName;
@@ -232,7 +237,6 @@ namespace HolidayManagement.Controllers
                     user.AspnetUsers.Email = model.AspnetUsers.Email;
                     user.AspnetUsers.UserName = model.AspnetUsers.Email;
                     user.MaxDays = model.MaxDays;
-                    //user = model;
                     database.SaveChanges();
                     succes = true;
                 }
